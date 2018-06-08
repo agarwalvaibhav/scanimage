@@ -1,0 +1,18 @@
+#Other files
+*.pyc
+*.swp
+
+#Hidden files
+.*
+!/.gitignore
+
+#tags file
+tags
+
+#cscope file
+cscope.out
+
+#Ignore out files
+out/
+
+
