@@ -9,10 +9,29 @@ import numpy as np
 def getimages(fdir = "../dataset/PetImages/Cat", fformat = '.jpg'):
 
     filelist = glob.glob(fdir+'/*'+fformat)
-    #imgarray = np.array([np.array(Image.open(fname)) for fname in filelist])
-    imgarray = np.array([np.array(img.imread(fname)) for fname in filelist])
+    #images= np.array([np.array(Image.open(fname)) for fname in filelist])
+    images = np.array([np.array(img.imread(fname)) for fname in filelist])
 
-    return imgarray
+    #filter invalid images, where image dimension is != 3
+    images = np.array(list(filter(lambda x: x.ndim ==3, images)))
+
+    return images
+
+def alignimages(images):
+    x_size = max(x.shape[0] for x in images)
+    y_size = max(y.shape[1] for y in images)
+
+    #append 0's to align image size
+    for image in images:
+        if image.ndim != 3:
+            print("Invalid image, {0}".format(image.shape))
+            continue
+        xdiff = x_size - image.shape[0]
+        ydiff = y_size - image.shape[1]
+        if not xdiff and not ydiff:
+            continue
+        image = np.pad(image, ((0,xdiff), (0,ydiff), (0,0)), 'constant', constant_values=(0))
+    return
 
 if __name__ == '__main__':
 
@@ -30,10 +49,12 @@ if __name__ == '__main__':
     #writeto = args.write
 
     #get images
-    imgarray = getimages(fdir=fdir, fformat=fformat)
+    images = getimages(fdir=fdir, fformat=fformat)
+    alignimages(images)
+
 
     """
     uncomment following line to dump output array to a file
     if writeto:
-        imgarray.dump(writeto)
+        images.dump(writeto)
     """
