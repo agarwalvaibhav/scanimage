@@ -12,8 +12,8 @@ def getimages(fdir = "../dataset/PetImages/Cat", fformat = '.jpg'):
     #images= np.array([np.array(Image.open(fname)) for fname in filelist])
     images = np.array([np.array(img.imread(fname)) for fname in filelist])
 
-    #filter invalid images, where image dimension is != 3
-    images = np.array(list(filter(lambda x: x.ndim ==3, images)))
+    #filter invalid images, where image dimension is != 3 and content is different from RGB
+    images = np.array(list(filter(lambda x: x.ndim ==3 and x.shape[2] == 3, images)))
 
     return images
 
