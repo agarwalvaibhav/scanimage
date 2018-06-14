@@ -22,16 +22,12 @@ def alignimages(images):
     y_size = max(y.shape[1] for y in images)
 
     #append 0's to align image size
-    for image in images:
-        if image.ndim != 3:
-            print("Invalid image, {0}".format(image.shape))
-            continue
-        xdiff = x_size - image.shape[0]
-        ydiff = y_size - image.shape[1]
-        if not xdiff and not ydiff:
-            continue
-        image = np.pad(image, ((0,xdiff), (0,ydiff), (0,0)), 'constant', constant_values=(0))
-    return
+    imgs = np.array([np.pad(image,
+                            ((0,(x_size - image.shape[0])),
+                             (0,(y_size - image.shape[1])),
+                            (0,0)),
+                           'constant', constant_values=(0)) for image in images])
+    return imgs
 
 if __name__ == '__main__':
 
@@ -50,7 +46,7 @@ if __name__ == '__main__':
 
     #get images
     images = getimages(fdir=fdir, fformat=fformat)
-    alignimages(images)
+    images = alignimages(images)
 
 
     """
