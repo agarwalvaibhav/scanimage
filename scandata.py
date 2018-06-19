@@ -6,6 +6,10 @@ import numpy as np
 
 #from PIL import Image
 
+def zeropad(x, pad):
+    x_pad = np.pad(x, ((0,0), (pad, pad), (pad, pad), (0,0)), mode='constant')
+    return x_pad
+
 def getimages(fdir = "../dataset/PetImages/Cat", fformat = '.jpg'):
 
     filelist = glob.glob(fdir+'/*'+fformat)
