@@ -10,6 +10,21 @@ def zeropad(x, pad):
     x_pad = np.pad(x, ((0,0), (pad, pad), (pad, pad), (0,0)), mode='constant')
     return x_pad
 
+def conv_single_step(prev_slice, W, b):
+    """
+    prev_slice : slice of original image (R,G,B component) with shape(f,f,nc)
+    W: filter with shape (f,f,nc)
+    b: bias parameter, array  of shape (1,1,1)
+    """
+    s = prev_slice * W
+    rs = np.sum(R)
+
+
+    #bias addition
+    rs  = rs + float(b)
+
+    return rs
+
 def getimages(fdir = "../dataset/PetImages/Cat", fformat = '.jpg'):
 
     filelist = glob.glob(fdir+'/*'+fformat)
